@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | GiftMatch{% endblock %}
+{% block content %}
+<section class="app-shell container">
+    <aside class="side-panel">
+        <h2>My Account</h2>
+        <p>Gift Preferences</p>
+        <nav class="side-nav">
+            <a href="{% url 'wishlist:list' %}">♡ Wishlist</a>
+            <a href="{% url 'occasions:list' %}">▣ Reminders</a>
+            <a href="{% url 'accounts:edit_profile' %}">⚙ Settings</a>
+        </nav>
+        <div class="upgrade-box">
+            <strong>Gift Pro?</strong>
+            <p>Unlock premium reminders, smarter comparisons, and more personalized gift ideas.</p>
+            <a class="btn btn-light small" href="{% url 'pro' %}">Explore Pro</a>
+        </div>
+    </aside>
+
+    <div class="dashboard-main">
+        <div class="page-title-row">
+            <div>
+                <h1>Welcome back, {{ request.user.first_name|default:request.user.username }}</h1>
+                <p>You have {{ upcoming|length }} occasion{{ upcoming|length|pluralize }} approaching this month.</p>
+            </div>
+            <a class="btn btn-primary" href="{% url 'gifts:finder' %}">Find a Gift</a>
+        </div>
+
+        <section class="dashboard-grid two-col">
+            <div class="wide-card upcoming-card">
+                <div class="section-header compact">
+                    <h2>Upcoming Occasions</h2>
+                    <a class="text-link" href="{% url 'occasions:list' %}">View Calendar</a>
+                </div>
+                {% if upcoming %}
+                    {% for item in upcoming %}
+                    <article class="occasion-row">
+                        <div>
+                            <span class="badge">{{ item.days_left }} day{{ item.days_left|pluralize }} left</span>
+                            <h3>{{ item.event_title }}</h3>
+                            <p>{{ item.event_date }} • {{ item.get_occasion_type_display }}</p>
+                            <a class="btn btn-primary small" href="{% url 'gifts:finder' %}?occasion_id={{ item.id }}">Find a Gift</a>
+                        </div>
+                        <div class="date-tile">{{ item.event_date|date:'M d' }}</div>
+                    </article>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-card">No upcoming occasions yet. Add one in the Occasion Manager.</div>
+                {% endif %}
+            </div>
+
+            <div class="wide-card reminder-card">
+                <h2>Smart Reminders</h2>
+                {% if notifications %}
+                    {% for n in notifications %}
+                    <div class="notice-item">
+                        <strong>{{ n.title }}</strong>
+                        <span>{{ n.message }}</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="notice-item"><strong>No reminders yet</strong><span>Saved occasions and wishlist activity will appear here.</span></div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="section-space-sm">
+            <div class="section-header compact">
+                <div>
+                    <h2>Curated For You</h2>
+                    <p>Thoughtful picks based on popular interests and recent gifting trends.</p>
+                </div>
+                <div class="chip-row"><span>Tech</span><span>Home</span><span>Experiences</span></div>
+            </div>
+            <div class="gift-grid three-col">
+                {% for gift in curated %}
+                    {% include 'gifts/partials/gift_card.html' with gift=gift %}
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

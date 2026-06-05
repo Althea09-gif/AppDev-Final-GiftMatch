@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Delete Occasion | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad narrow-page">
+    <div class="card-panel">
+        <h1>Delete Occasion?</h1>
+        <p>This will remove <strong>{{ occasion.event_title }}</strong> from your saved reminders.</p>
+        <form method="post" class="hero-actions">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Delete</button>
+            <a class="btn btn-outline" href="{% url 'occasions:list' %}">Cancel</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

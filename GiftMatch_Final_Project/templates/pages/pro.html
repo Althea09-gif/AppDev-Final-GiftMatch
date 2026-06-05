@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block title %}GiftMatch Pro | Premium Gifting{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="pro-hero">
+        <span class="eyebrow">GiftMatch Pro</span>
+        <h1>Make every gift feel more personal.</h1>
+        <p>Upgrade your gifting experience with deeper personalization, smarter reminders, advanced comparison tools, and more curated gift options for every special occasion.</p>
+        <a class="btn btn-primary" href="#plans">View Plans</a>
+    </div>
+
+    <section class="section-space-sm">
+        <div class="section-header compact">
+            <div>
+                <h2>Premium Features</h2>
+                <p>Designed for users who want faster, more confident gift planning.</p>
+            </div>
+        </div>
+        <div class="steps-grid">
+            <div class="feature-card"><div class="round-icon">✦</div><h3>Personalized gift intelligence</h3><p>Receive more tailored recommendations based on gifting history, saved occasions, and favorite interests.</p></div>
+            <div class="feature-card"><div class="round-icon">✓</div><h3>Advanced matching accuracy</h3><p>Refine gift suggestions with more detailed filters, better budget matching, and smarter recipient preferences.</p></div>
+            <div class="feature-card"><div class="round-icon">∞</div><h3>Unlimited searches</h3><p>Explore as many gift ideas as you need for birthdays, anniversaries, holidays, and custom celebrations.</p></div>
+            <div class="feature-card"><div class="round-icon">⏰</div><h3>Premium reminders</h3><p>Plan earlier with enhanced reminder schedules and occasion countdowns.</p></div>
+            <div class="feature-card"><div class="round-icon">♡</div><h3>Smart wishlist management</h3><p>Organize gift ideas by person, occasion, purchase status, and priority.</p></div>
+            <div class="feature-card"><div class="round-icon">↔</div><h3>Advanced comparison tools</h3><p>Compare more products by price, marketplace, match score, interest, and value.</p></div>
+        </div>
+    </section>
+
+    <section id="plans" class="section-space-sm">
+        <div class="section-header compact">
+            <div>
+                <h2>Choose your plan</h2>
+                <p>Simple options for different gift-planning needs.</p>
+            </div>
+        </div>
+        <div class="pricing-grid">
+            <article class="price-card">
+                <span class="badge">Basic Pro</span>
+                <h3>Monthly</h3>
+                <div class="plan-price">₱149<span>/month</span></div>
+                <ul>
+                    <li>More personalized gift ideas</li>
+                    <li>Premium occasion reminders</li>
+                    <li>Smart wishlist folders</li>
+                    <li>Email support</li>
+                </ul>
+                <button class="btn btn-outline full" type="button">Choose Basic Pro</button>
+            </article>
+            <article class="price-card highlighted">
+                <span class="badge">Premium Pro</span>
+                <h3>Monthly</h3>
+                <div class="plan-price">₱249<span>/month</span></div>
+                <ul>
+                    <li>Advanced gift matching</li>
+                    <li>Unlimited recommendation searches</li>
+                    <li>Advanced comparison tools</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="btn btn-primary full" type="button">Choose Premium Pro</button>
+            </article>
+            <article class="price-card">
+                <span class="badge">Annual Pro</span>
+                <h3>Yearly</h3>
+                <div class="plan-price">₱1,999<span>/year</span></div>
+                <ul>
+                    <li>All Premium Pro features</li>
+                    <li>Discounted yearly price</li>
+                    <li>Early access to new features</li>
+                    <li>Best for frequent gift planners</li>
+                </ul>
+                <button class="btn btn-outline full" type="button">Choose Annual Pro</button>
+            </article>
+        </div>
+    </section>
+</section>
+{% endblock %}

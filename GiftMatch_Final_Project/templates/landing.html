@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}GiftMatch | Find Thoughtful Gifts Faster{% endblock %}
+{% block content %}
+<section class="hero-section">
+    <div class="container hero-grid">
+        <div class="hero-copy">
+            <span class="eyebrow">Personalized Gift Discovery</span>
+            <h1>Find the perfect gift for every occasion.</h1>
+            <p>GiftMatch helps you discover thoughtful gift ideas based on who you are shopping for, the occasion, their interests, your budget, and your preferred marketplace.</p>
+            <div class="hero-actions">
+                {% if request.user.is_authenticated %}
+                    <a class="btn btn-primary" href="{% url 'gifts:finder' %}">Find a Gift</a>
+                    <a class="btn btn-outline" href="{% url 'dashboard' %}">Open Dashboard</a>
+                {% else %}
+                    <a class="btn btn-primary" href="{% url 'accounts:register' %}">Get Started</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="hero-collage" aria-label="Gift inspiration collage">
+            <img src="https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=900&q=80" alt="Wrapped gift box">
+            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80" alt="Watch gift idea">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=900&q=80" alt="Coffee gift idea">
+            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80" alt="Self-care gift idea">
+        </div>
+    </div>
+</section>
+
+<section class="soft-section">
+    <div class="container center-heading">
+        <h2>Gifting made simple</h2>
+        <p>GiftMatch turns a stressful search into a guided experience with meaningful suggestions you can save, compare, and buy when you are ready.</p>
+        <div class="steps-grid">
+            <div class="feature-card">
+                <div class="round-icon">1</div>
+                <h3>Tell us who it is for</h3>
+                <p>Choose the recipient, occasion, favorite interests, budget range, and preferred shopping platform.</p>
+            </div>
+            <div class="feature-card">
+                <div class="round-icon">2</div>
+                <h3>Get thoughtful matches</h3>
+                <p>See gift ideas that fit your selected preferences instead of random products.</p>
+            </div>
+            <div class="feature-card">
+                <div class="round-icon">3</div>
+                <h3>Save, compare, and shop</h3>
+                <p>Keep your favorite gift ideas, compare options, and open your chosen marketplace in one click.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container section-space">
+    <div class="section-header">
+        <div>
+            <h2>Featured Occasions</h2>
+            <p>Popular moments where a thoughtful gift can make the celebration feel more special.</p>
+        </div>
+        <a class="text-link" href="{% url 'gifts:finder' %}">Start gift finder →</a>
+    </div>
+    <div class="occasion-grid four-occasion-grid">
+        <article class="occasion-card">
+            <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=900&q=80" alt="Birthday celebration">
+            <h3>Birthday</h3>
+            <p>Find sweet, useful, and memorable gifts for every age and personality.</p>
+        </article>
+        <article class="occasion-card">
+            <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=900&q=80" alt="Anniversary couple celebration">
+            <h3>Anniversary</h3>
+            <p>Celebrate love, milestones, and shared memories with meaningful picks.</p>
+        </article>
+        <article class="occasion-card">
+            <img src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=900&q=80" alt="Christmas gift-giving">
+            <h3>Christmas</h3>
+            <p>Discover festive gift ideas for family, friends, partners, and coworkers.</p>
+        </article>
+        <article class="occasion-card">
+            <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?auto=format&fit=crop&w=900&q=80" alt="Graduation celebration">
+            <h3>Graduation</h3>
+            <p>Congratulate achievements with practical, inspiring, and personal gifts.</p>
+        </article>
+    </div>
+</section>
+
+<section class="container cta-panel">
+    <h2>Ready to find that “just right” gift?</h2>
+    <p>Stop guessing and start giving with confidence.</p>
+    <a class="btn btn-light" href="{% url 'gifts:finder' %}">Get Started Now</a>
+</section>
+{% endblock %}

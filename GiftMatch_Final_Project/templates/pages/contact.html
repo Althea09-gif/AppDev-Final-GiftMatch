@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Contact Us | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="legal-card">
+        <span class="eyebrow">Contact Us</span>
+        <h1>Need help finding the right gift?</h1>
+        <p>We welcome questions, feedback, and suggestions about your GiftMatch experience.</p>
+        <h2>Contact information</h2>
+        <p><strong>Email:</strong> support@giftmatch.local</p>
+        <p><strong>Support hours:</strong> Monday to Friday, 9:00 AM to 5:00 PM</p>
+        <h2>Send feedback</h2>
+        <form class="form-stack">
+            <label>Name<input type="text" placeholder="Your name"></label>
+            <label>Email<input type="email" placeholder="your@email.com"></label>
+            <label>Message<textarea rows="4" placeholder="Tell us how we can help..."></textarea></label>
+            <button class="btn btn-primary" type="button">Submit Feedback</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

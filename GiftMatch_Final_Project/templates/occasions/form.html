@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Edit Occasion | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad narrow-page">
+    <div class="card-panel">
+        <span class="eyebrow">Edit reminder</span>
+        <h1>Edit Occasion</h1>
+        <form method="post" class="form-stack">
+            {% csrf_token %}
+            {% for field in form %}<label>{{ field.label }}{{ field }}{{ field.errors }}</label>{% endfor %}
+            <button class="btn btn-primary full" type="submit">Save Changes</button>
+            <a class="btn btn-outline full" href="{% url 'occasions:list' %}">Back</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

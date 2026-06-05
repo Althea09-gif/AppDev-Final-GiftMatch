@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Profile | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="profile-header-card">
+        <div class="profile-avatar-large">{{ request.user.first_name|default:request.user.username|slice:':1'|upper }}</div>
+        <div>
+            <span class="eyebrow">User profile</span>
+            <h1>{{ request.user.profile.full_name|default:request.user.username }}</h1>
+            <p>{{ request.user.email }}</p>
+        </div>
+        <a class="btn btn-primary" href="{% url 'accounts:edit_profile' %}">Edit Profile</a>
+    </div>
+
+    <div class="dashboard-grid two-col section-space-sm">
+        <div class="wide-card">
+            <h2>About</h2>
+            <p>{{ request.user.profile.bio|default:'No bio added yet.' }}</p>
+        </div>
+        <div class="wide-card">
+            <h2>Gift Preferences</h2>
+            <p><strong>Favorite color:</strong> {{ request.user.profile.favorite_color }}</p>
+            <p><strong>Preferred budget:</strong> ₱{{ request.user.profile.preferred_budget_min }} - ₱{{ request.user.profile.preferred_budget_max }}</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Recommendations | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="section-header">
+        <div>
+            <span class="breadcrumb">Home › Recommendations</span>
+            <h1>Found {{ scored|length }} Relevant Match{{ scored|length|pluralize:"es" }}</h1>
+            <p>Results are matched to your recipient, occasion, selected interests, budget range, and marketplace.</p>
+        </div>
+        <div class="toolbar-actions">
+            <a class="btn btn-outline" href="{{ edit_search_url }}">Edit Search</a>
+            {% if external_products %}<button class="btn btn-outline" type="button" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">More Store Finds</button>{% endif %}
+        </div>
+    </div>
+
+    <div class="results-layout">
+        <aside class="filter-panel">
+            <h3>Active Filters</h3>
+            {% if recipient_name %}
+            <div class="filter-group">
+                <small>Recipient Name</small>
+                <span class="filter-chip">{{ recipient_name }}</span>
+            </div>
+            {% endif %}
+            <div class="filter-group">
+                <small>Recipient</small>
+                <span class="filter-chip">{{ recipient_type|title }}</span>
+            </div>
+            <div class="filter-group">
+                <small>Occasion</small>
+                <span class="filter-chip">{{ occasion_type|title }}</span>
+            </div>
+            <div class="filter-group">
+                <small>Interests</small>
+                <div>
+                    {% for interest in interests %}<span class="filter-chip">{{ interest.name }}</span>{% endfor %}
+                </div>
+            </div>
+            <div class="filter-group">
+                <small>Marketplace</small>
+                <span class="filter-chip">{% if marketplace == 'any' %}Any Marketplace{% else %}{{ marketplace }}{% endif %}</span>
+            </div>
+            <div class="filter-group">
+                <small>Price Range</small>
+                <span>₱{{ budget_min }} - ₱{{ budget_max }}</span>
+            </div>
+            <a class="text-link" href="{% url 'gifts:finder' %}">Clear all filters</a>
+            <div class="upgrade-box compact-box">
+                <strong>Smarter picks</strong>
+                <p>GiftMatch prioritizes recipient, occasion, interest, budget, and marketplace fit.</p>
+            </div>
+        </aside>
+
+        <div>
+            {% if scored %}
+            <div class="gift-grid three-col">
+                {% for item in scored %}
+                    <article class="gift-card result-card">
+                        <div class="gift-image-wrap">
+                            {% if forloop.first %}<span class="tag tag-hot">Highly recommended</span>{% endif %}
+                            <img src="{{ item.gift.product_image }}" alt="{{ item.gift.name }}">
+                            {% if scored|length > 1 %}
+                            <label class="compare-check">
+                                <input type="checkbox"
+                                       data-compare-check
+                                       data-name="{{ item.gift.name|escape }}"
+                                       data-price="{{ item.gift.price }}"
+                                       data-store="{{ item.gift.store_name }}"
+                                       data-score="{{ item.score }}"
+                                       data-interest="{{ item.shared_interests|escape }}">
+                                Compare
+                            </label>
+                            {% endif %}
+                            <div class="score-pill">{{ item.score }}% Match</div>
+                        </div>
+                        <div class="gift-card-body">
+                            <div class="gift-title-row">
+                                <h3><a href="{% url 'gifts:detail' item.gift.id %}">{{ item.gift.name }}</a></h3>
+                                <strong>₱{{ item.gift.price }}</strong>
+                            </div>
+                            <p>{{ item.gift.description|truncatechars:85 }}</p>
+                            <div class="reason-row">
+                                {% for reason in item.reasons %}<span>{{ reason }}</span>{% endfor %}
+                            </div>
+                            <div class="why-box">
+                                <strong>Why this gift?</strong>
+                                {{ item.why }}
+                            </div>
+                            <div class="gift-meta">
+                                <span>{{ item.gift.store_name }}</span>
+                                <span>★ {{ item.gift.rating }}</span>
+                            </div>
+                            <div class="card-actions">
+                                <a class="btn btn-outline small" href="{% url 'gifts:detail' item.gift.id %}">View Details</a>
+                                <a class="btn btn-outline small" href="{{ item.gift.store_link }}" target="_blank" rel="noopener">Open {{ item.gift.store_name }} ↗</a>
+                                <form method="post" action="{% url 'wishlist:add' item.gift.id %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{% url 'wishlist:list' %}">
+                                    <button class="btn btn-primary small" type="submit">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% if scored|length > 1 %}
+            <div class="compare-panel" data-compare-panel>
+                <p><strong><span data-compare-count>0</span> gift(s)</strong> selected for comparison. Choose 2–3 gifts.</p>
+                <button class="btn btn-light small" type="button" data-compare-open disabled>Compare Gifts</button>
+            </div>
+
+            <div class="comparison-modal" data-compare-modal>
+                <div class="comparison-modal-card">
+                    <div class="section-header compact">
+                        <div>
+                            <h2>Gift Comparison</h2>
+                            <p>Compare selected gifts before deciding what to buy.</p>
+                        </div>
+                        <button class="btn btn-outline small" type="button" data-compare-close>Close</button>
+                    </div>
+                    <div class="table-card">
+                        <table class="compare-table">
+                            <thead>
+                                <tr><th>Gift</th><th>Price</th><th>Store</th><th>Match Score</th><th>Interest</th></tr>
+                            </thead>
+                            <tbody data-compare-body></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+                <div class="empty-card">
+                    No exact matches found. Try selecting another marketplace, adding another interest, or widening your budget range.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if external_products %}
+    <section class="section-space">
+        <div class="section-header compact">
+            <div>
+                <h2>More Marketplace Finds</h2>
+                <p>Additional shopping links based on your selected interest and budget.</p>
+            </div>
+        </div>
+        <div class="gift-grid four-col">
+            {% for product in external_products %}
+            <article class="external-card">
+                <img src="{{ product.image }}" alt="{{ product.title }}">
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.store }} • ₱{{ product.price }}</p>
+                <a class="btn btn-outline full small" href="{{ product.url }}" target="_blank" rel="noopener">Open {{ product.store }} ↗</a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}

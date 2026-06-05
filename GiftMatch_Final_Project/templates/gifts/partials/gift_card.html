@@ -1,0 +1,23 @@
+<article class="gift-card">
+    <div class="gift-image-wrap">
+        {% if gift.is_featured %}<span class="tag tag-hot">Highly recommended</span>{% endif %}
+        <img src="{{ gift.product_image|default:'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=900&q=80' }}" alt="{{ gift.name }}">
+        <form method="post" action="{% url 'wishlist:add' gift.id %}" class="heart-form">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit" class="heart-button" title="Save to wishlist">♡</button>
+        </form>
+    </div>
+    <div class="gift-card-body">
+        <div class="gift-title-row">
+            <h3><a href="{% url 'gifts:detail' gift.id %}">{{ gift.name }}</a></h3>
+            <strong>₱{{ gift.price }}</strong>
+        </div>
+        <p>{{ gift.description|truncatechars:92 }}</p>
+        <div class="gift-meta">
+            <span>{{ gift.store_name }}</span>
+            <span>★ {{ gift.rating }}</span>
+        </div>
+        <a class="btn btn-outline full small" href="{% url 'gifts:detail' gift.id %}">View Details</a>
+    </div>
+</article>

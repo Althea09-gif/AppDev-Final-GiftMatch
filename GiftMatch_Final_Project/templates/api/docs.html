@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}API Documentation | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow">RESTful API Development</span>
+            <h1>GiftMatch API Documentation</h1>
+            <p>These endpoints are built with Django REST Framework serializers, viewsets, and API views.</p>
+        </div>
+        <a class="btn btn-primary" href="/api/v1/" target="_blank" rel="noopener">Open API Browser</a>
+    </div>
+
+    <div class="api-grid">
+        <div class="card-panel">
+            <h2>Readable Endpoints</h2>
+            <code><span class="method-badge">GET</span>/api/v1/gifts/</code>
+            <code><span class="method-badge">GET</span>/api/v1/categories/</code>
+            <code><span class="method-badge">GET</span>/api/v1/interests/</code>
+            <code><span class="method-badge">GET</span>/api/v1/gifts/?recipient=friend&amp;occasion=birthday&amp;interest=Gaming&amp;min_price=500&amp;max_price=1500&amp;store=Shopee</code>
+        </div>
+        <div class="card-panel">
+            <h2>User Endpoints</h2>
+            <code><span class="method-badge">GET/POST</span>/api/v1/wishlist/</code>
+            <code><span class="method-badge">GET/POST</span>/api/v1/occasions/</code>
+            <code><span class="method-badge">GET</span>/api/v1/notifications/</code>
+            <code><span class="method-badge">GET/PUT</span>/api/v1/profile/</code>
+        </div>
+        <div class="card-panel">
+            <h2>Recommendation API</h2>
+            <p>POST selected recipient, occasion, interest IDs, budget, and marketplace to receive scored gifts with explanations.</p>
+            <pre>{
+  "recipient_type": "friend",
+  "occasion_type": "birthday",
+  "interest_ids": [1, 2],
+  "budget_min": 500,
+  "budget_max": 1500,
+  "marketplace": "Shopee"
+}</pre>
+        </div>
+        <div class="card-panel">
+            <h2>Live API Test</h2>
+            <p>Click to fetch gift data from the REST endpoint.</p>
+            <button class="btn btn-primary" type="button" data-api-demo>Fetch Gifts JSON</button>
+            <pre id="api-output" class="api-output">Waiting for request...</pre>
+        </div>
+    </div>
+</section>
+{% endblock %}

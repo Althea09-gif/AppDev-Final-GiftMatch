@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Register | GiftMatch{% endblock %}
+{% block content %}
+<section class="auth-page container">
+    <div class="auth-card wide-auth">
+        <span class="eyebrow">Start smart gifting</span>
+        <h1>Create your account</h1>
+        <p>Sign in using your preferred account or create a GiftMatch account below.</p>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <label>{{ field.label }}{{ field }}{{ field.errors }}</label>
+            {% endfor %}
+            <button class="btn btn-primary full span-2" type="submit">Register</button>
+        </form>
+        <div class="or-divider">or continue with</div>
+        <div class="social-icon-row">
+            <a class="social-circle" href="/accounts/google/login/" aria-label="Continue with Google">G</a>
+            <a class="social-circle facebook" href="/accounts/facebook/login/" aria-label="Continue with Facebook">f</a>
+        </div>
+        <p class="muted center">Already registered? <a href="{% url 'accounts:login' %}">Login</a></p>
+    </div>
+</section>
+{% endblock %}

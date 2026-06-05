@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ gift.name }} | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <a class="back-link" href="{{ back_url }}">← Back to Results</a>
+    <div class="detail-layout">
+        <div class="detail-image-card">
+            <img src="{{ gift.product_image|default:'https://images.unsplash.com/photo-1513201099705-a9746e1e201f?auto=format&fit=crop&w=900&q=80' }}" alt="{{ gift.name }}">
+        </div>
+        <div class="detail-copy">
+            <span class="eyebrow">{{ gift.category.name }} • {{ gift.store_name }}</span>
+            <h1>{{ gift.name }}</h1>
+            <p>{{ gift.description }}</p>
+            <div class="price-line">₱{{ gift.price }}</div>
+            <div class="reason-row spacious">
+                <span>{{ gift.get_recipient_type_display }}</span>
+                <span>{{ gift.get_occasion_type_display }}</span>
+                <span>★ {{ gift.rating }}</span>
+                {% for interest in gift.interests.all %}<span>{{ interest.name }}</span>{% endfor %}
+            </div>
+            <div class="why-box">
+                <strong>Why this gift can work</strong>
+                This item is tagged for {{ gift.get_recipient_type_display|lower }} gift-giving, fits {{ gift.get_occasion_type_display|lower }}, and belongs to the {{ gift.category.name|lower }} category.
+            </div>
+            <div class="hero-actions">
+                <form method="post" action="{% url 'wishlist:add' gift.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'wishlist:list' %}">
+                    <button class="btn btn-primary" type="submit">Add to Wishlist</button>
+                </form>
+                {% if gift.store_link %}<a class="btn btn-outline" href="{{ gift.store_link }}" target="_blank" rel="noopener">Open {{ gift.store_name }} ↗</a>{% endif %}
+            </div>
+            <div class="section-space-sm">
+                <h3>Choose marketplace</h3>
+                <p class="muted">Open this gift idea on your preferred shopping platform.</p>
+                <div class="marketplace-row">
+                    {% for store, url in marketplace_urls.items %}
+                        <a class="marketplace-choice" href="{{ url }}" target="_blank" rel="noopener">
+                            <img class="market-logo" src="{% static 'images/marketplaces/' %}{% if store == 'TikTok Shop' %}tiktok{% else %}{{ store|lower }}{% endif %}.svg" alt="{{ store }}">
+                            <span>{{ store }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if related %}
+    <section class="section-space">
+        <div class="section-header compact"><h2>Related Gifts</h2></div>
+        <div class="gift-grid three-col">
+            {% for gift in related %}
+                {% include 'gifts/partials/gift_card.html' with gift=gift %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</section>
+{% endblock %}

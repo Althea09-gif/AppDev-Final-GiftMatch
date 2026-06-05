@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad narrow-page">
+    <div class="card-panel">
+        <span class="eyebrow">Profile settings</span>
+        <h1>Edit Profile</h1>
+        <form method="post" class="form-grid">
+            {% csrf_token %}
+            {% for field in user_form %}
+                <label>{{ field.label }}{{ field }}{{ field.errors }}</label>
+            {% endfor %}
+            {% for field in profile_form %}
+                <label class="{% if field.name == 'bio' %}span-2{% endif %}">{{ field.label }}{{ field }}{{ field.errors }}</label>
+            {% endfor %}
+            <button class="btn btn-primary span-2" type="submit">Save Changes</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

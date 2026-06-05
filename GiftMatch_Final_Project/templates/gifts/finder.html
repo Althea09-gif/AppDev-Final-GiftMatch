@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gift Finder | GiftMatch{% endblock %}
+{% block content %}
+<section class="container finder-hero">
+    <h1>Find the perfect gift, <span>stress-free.</span></h1>
+    <p>Answer a few simple questions and GiftMatch will suggest thoughtful gift ideas tailored to your recipient.</p>
+</section>
+
+<section class="container finder-layout">
+    <form method="post" action="{% url 'recommendations:results' %}" class="wizard-card" data-wizard>
+        {% csrf_token %}
+        <input type="hidden" name="recipient_name" value="{{ form.recipient_name.value|default:prefilled_recipient_name }}">
+        {% if prefilled_recipient_name %}
+            <div class="prefill-note">Finding gift ideas for <strong>{{ prefilled_recipient_name }}</strong>. You can still edit the selections below.</div>
+        {% endif %}
+        <div class="wizard-progress">
+            <div class="step-dot active" data-step-label="1"><strong>1</strong><span>Recipient</span></div>
+            <div class="line"></div>
+            <div class="step-dot" data-step-label="2"><strong>2</strong><span>Occasion</span></div>
+            <div class="line"></div>
+            <div class="step-dot" data-step-label="3"><strong>3</strong><span>Details</span></div>
+        </div>
+
+        <div class="wizard-step active" data-step="1">
+            <h2>Who is the gift for?</h2>
+            <div class="option-grid">
+                {% for value, label in form.fields.recipient_type.choices %}
+                <label class="choice-card">
+                    <input type="radio" name="recipient_type" value="{{ value }}" {% if selected_recipient_type == value %}checked{% endif %}>
+                    <span class="choice-icon recipient-{{ value }}"></span>
+                    <strong>{{ label }}</strong>
+                    <small>{% if value == 'partner' %}Spouse, boyfriend, or girlfriend{% elif value == 'family' %}Parents, siblings, or relatives{% elif value == 'friend' %}Best friends or classmates{% else %}Colleagues, managers, or workmates{% endif %}</small>
+                </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="wizard-step" data-step="2">
+            <h2>What is the occasion?</h2>
+            <div class="form-stack centered-field">
+                <label>Occasion{{ form.occasion_type }}</label>
+                <small>Occasion options adjust based on the selected recipient.</small>
+            </div>
+        </div>
+
+        <div class="wizard-step" data-step="3">
+            <h2>Interests, budget, and marketplace</h2>
+            <div class="details-grid">
+                <div>
+                    <h3>Choose interests</h3>
+                    <p class="muted">Select at least one interest for more accurate matching.</p>
+                    <div class="interest-card-grid">
+                        {% for interest in form.fields.interests.queryset %}
+                            <label class="interest-card">
+                                <input type="checkbox" name="interests" value="{{ interest.id }}" {% if interest.id in selected_interest_ids %}checked{% endif %}>
+                                <span class="interest-icon interest-{{ interest.icon|default:'spark' }}"></span>
+                                <strong>{{ interest.name }}</strong>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="form-stack">
+                    <div>
+                        <h3>Budget range</h3>
+                        <div class="radio-stack">
+                            {% for value, label in form.fields.budget_range.choices %}
+                                <label><input type="radio" name="budget_range" value="{{ value }}" {% if selected_budget_range == value %}checked{% endif %}> {{ label }}</label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Preferred marketplace</h3>
+                        <div class="marketplace-row">
+                            {% for value, label in form.fields.marketplace.choices %}
+                                <label class="marketplace-choice">
+                                    <input type="radio" name="marketplace" value="{{ value }}" {% if selected_marketplace == value %}checked{% endif %}>
+                                    <img class="market-logo" src="{% static 'images/marketplaces/' %}{% if value == 'TikTok Shop' %}tiktok{% else %}{{ value|lower }}{% endif %}.svg" alt="{{ label }}">
+                                    <span>{{ label }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wizard-actions">
+            <button class="btn btn-outline" type="button" data-prev>← Back</button>
+            <a href="{% url 'dashboard' %}" class="text-muted-link">Cancel</a>
+            <button class="btn btn-primary" type="button" data-next>Continue →</button>
+            <button class="btn btn-primary hidden" type="submit" data-submit>Get Recommendations →</button>
+        </div>
+    </form>
+</section>
+
+<section class="container section-space">
+    <div class="section-header">
+        <div>
+            <h2>Inspiration Gallery</h2>
+            <p>Recent top-rated finds loved by GiftMatch users.</p>
+        </div>
+        <a class="text-link" href="{% url 'gifts:finder' %}">Refresh ideas →</a>
+    </div>
+    <div class="gift-grid three-col">
+        {% for gift in featured %}
+            {% include 'gifts/partials/gift_card.html' with gift=gift %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

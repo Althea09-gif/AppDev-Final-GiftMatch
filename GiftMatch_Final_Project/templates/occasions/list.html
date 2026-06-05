@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Occasion Manager | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow">Reminder management</span>
+            <h1>Occasion Manager</h1>
+            <p>Save birthdays, anniversaries, holidays, and custom events.</p>
+        </div>
+    </div>
+
+    <div class="occasion-manager-grid">
+        <div class="card-panel">
+            <h2>Add Important Occasion</h2>
+            <form method="post" class="form-stack">
+                {% csrf_token %}
+                {% for field in form %}
+                    <label>{{ field.label }}{{ field }}{{ field.errors }}</label>
+                {% endfor %}
+                <button class="btn btn-primary full" type="submit">Save Occasion</button>
+            </form>
+        </div>
+
+        <div class="occasion-list-col">
+            {% if occasions %}
+                {% for occasion in occasions %}
+                    <article class="occasion-list-card {% if occasion.days_left < 0 %}past{% endif %}">
+                        <div>
+                            <span class="badge">{% if occasion.days_left >= 0 %}{{ occasion.days_left }} day{{ occasion.days_left|pluralize }} left{% else %}Past event{% endif %}</span>
+                            <h3>{{ occasion.event_title }}</h3>
+                            <p>{{ occasion.recipient_name }} • {{ occasion.get_occasion_type_display }} • {{ occasion.event_date }}</p>
+                            {% if occasion.notes %}<small>{{ occasion.notes }}</small>{% endif %}
+                        </div>
+                        <div class="row-actions">
+                            <a class="btn btn-primary small" href="{% url 'gifts:finder' %}?occasion_id={{ occasion.id }}">Find a Gift</a>
+                            <a class="btn btn-outline small" href="{% url 'occasions:edit' occasion.id %}">Edit</a>
+                            <form method="post" action="{% url 'occasions:delete' occasion.id %}">{% csrf_token %}<button class="btn btn-danger small" type="submit">Delete</button></form>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <div class="empty-card">No occasions yet. Add your first one using the form.</div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

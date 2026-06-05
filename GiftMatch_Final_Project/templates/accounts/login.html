@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Login | GiftMatch{% endblock %}
+{% block content %}
+<section class="auth-page container">
+    <div class="auth-card">
+        <span class="eyebrow">Welcome back</span>
+        <h1>Login to GiftMatch</h1>
+        <p>Continue managing your gift ideas, occasions, and wishlist.</p>
+        <form method="post" class="form-stack">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <label>{{ field.label }}{{ field }}{{ field.errors }}</label>
+            {% endfor %}
+            <button class="btn btn-primary full" type="submit">Login</button>
+        </form>
+        <div class="or-divider">or continue with</div>
+        <div class="social-icon-row">
+            <a class="social-circle" href="/accounts/google/login/" aria-label="Continue with Google">G</a>
+            <a class="social-circle facebook" href="/accounts/facebook/login/" aria-label="Continue with Facebook">f</a>
+        </div>
+        <p class="muted center">No account yet? <a href="{% url 'accounts:register' %}">Create one</a></p>
+    </div>
+</section>
+{% endblock %}

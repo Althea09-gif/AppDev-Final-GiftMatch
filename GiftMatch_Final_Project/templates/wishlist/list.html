@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Wishlist | GiftMatch{% endblock %}
+{% block content %}
+<section class="container page-pad">
+    <div class="section-header">
+        <div>
+            <span class="eyebrow">Saved gift ideas</span>
+            <h1>My Wishlist</h1>
+            <p>Save gift ideas, remove them, or mark them as purchased.</p>
+        </div>
+        <a class="btn btn-primary" href="{% url 'gifts:finder' %}">Find More Gifts</a>
+    </div>
+
+    {% if items %}
+    <div class="table-card">
+        <table class="wishlist-table">
+            <thead>
+                <tr>
+                    <th>Gift</th>
+                    <th>Store</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <div class="table-gift">
+                            <img src="{{ item.gift.product_image }}" alt="{{ item.gift.name }}">
+                            <div>
+                                <strong>{{ item.gift.name }}</strong>
+                                <span>{{ item.gift.category.name }}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ item.gift.store_name }}</td>
+                    <td>₱{{ item.gift.price }}</td>
+                    <td>{% if item.purchased %}<span class="status done">Purchased</span>{% else %}<span class="status planning">Planning to Buy</span>{% endif %}</td>
+                    <td class="row-actions">
+                        <a class="btn btn-outline small" href="{% url 'gifts:detail' item.gift.id %}">Details</a>
+                        <form method="post" action="{% url 'wishlist:toggle' item.id %}">{% csrf_token %}<button class="btn btn-outline small" type="submit">{% if item.purchased %}Unmark{% else %}Purchased{% endif %}</button></form>
+                        <form method="post" action="{% url 'wishlist:remove' item.id %}">{% csrf_token %}<button class="btn btn-danger small" type="submit">Remove</button></form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="empty-card">Your wishlist is empty. Use the Gift Finder to save gift ideas.</div>
+    {% endif %}
+</section>
+{% endblock %}

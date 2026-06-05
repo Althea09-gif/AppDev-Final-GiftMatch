@@ -1,0 +1,16 @@
+services:
+  web:
+    build: .
+    container_name: giftmatch_web
+    command: sh -c "python manage.py makemigrations accounts gifts occasions wishlist recommendations && python manage.py migrate && python manage.py seed_demo && python manage.py collectstatic --noinput && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+      - giftmatch_media:/app/media
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    environment:
+      - DEBUG=True
+volumes:
+  giftmatch_media:

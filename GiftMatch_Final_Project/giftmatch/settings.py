@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'occasions.apps.OccasionsConfig',
     'wishlist.apps.WishlistConfig',
     'recommendations.apps.RecommendationsConfig',
-      'api.apps.ApiConfig',
+    'api.apps.ApiConfig',
     
 ]
 

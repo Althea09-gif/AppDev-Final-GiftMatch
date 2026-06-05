@@ -7,7 +7,7 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'giftmatch-demo-secret-key-change-me')
-DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
 ALLOWED_HOSTS = [
     'giftmatch.pythonanywhere.com',
@@ -109,7 +109,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # LOGIN SETTINGS
 LOGIN_URL = 'accounts:login'
-LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'landing'
 
 # SITES FRAMEWORK

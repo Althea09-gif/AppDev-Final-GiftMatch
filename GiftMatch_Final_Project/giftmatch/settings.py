@@ -8,14 +8,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'giftmatch-demo-secret-key-change-me')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = ([
-    'giftmatch.pythonanywhere.com',] +
-    [host.strip() for host in os.getenv(
-        'ALLOWED_HOSTS',
-        'localhost,127.0.0.1,0.0.0.0,testserver'
-    ).split(',')
-    if host.strip()
-])
+
+ALLOWED_HOSTS = [
+    'giftmatch.pythonanywhere.com',
+    'localhost',
+    '127.0.0.1',
+]
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -107,6 +106,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # LOGIN SETTINGS
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'dashboard'
@@ -115,7 +115,7 @@ LOGOUT_REDIRECT_URL = 'landing'
 # SITES FRAMEWORK
 SITE_ID = 1
 
-# AUTH BACKENDS (IMPORTANT FOR ALLAUTH)
+# AUTH BACKENDS
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -126,7 +126,6 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 SOCIALACCOUNT_LOGIN_ON_GET = True

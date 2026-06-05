@@ -8,14 +8,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'giftmatch-demo-secret-key-change-me')
 DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
-ALLOWED_HOSTS = [
-    'giftmatch.pythonanywhere.com',
-    host.strip() for host in os.getenv(
+ALLOWED_HOSTS = ([
+    'giftmatch.pythonanywhere.com',] +
+    [host.strip() for host in os.getenv(
         'ALLOWED_HOSTS',
         'localhost,127.0.0.1,0.0.0.0,testserver'
     ).split(',')
     if host.strip()
-]
+])
 
 INSTALLED_APPS = [
     'django.contrib.admin',

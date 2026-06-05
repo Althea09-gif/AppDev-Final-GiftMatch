@@ -1,161 +1,112 @@
 # GiftMatch: Smart Gift Suggestion System
 
-GiftMatch is a responsive, desktop-first web application that helps users find thoughtful gift ideas based on recipient type, occasion, interests, budget, and preferred marketplace. The user-facing website is designed like a polished consumer product: clean landing page, guided gift finder, dashboard, wishlist, occasion reminders, notification bell, product details, and GiftMatch Pro page.
+GiftMatch is a responsive, desktop-first web application that helps users find thoughtful gift ideas based on recipient type, occasion, interests, budget, and preferred marketplace. The user-facing website is designed like a polished consumer product with a clean landing page, guided gift finder, dashboard, wishlist, occasion reminders, notifications, and recommendation system.
 
-## Main Features
+---
+
+## ✨ Main Features
 
 - Register, login, logout, user profile, and edit profile
 - Google and Facebook social-login integration using django-allauth
 - Desktop-first landing page, dashboard, gift finder wizard, and recommendation pages
 - Poppins font, hover effects, modern cards, and responsive layout
 - Recipient-based occasion filtering in the gift finder
-- Visual interest cards with minimalist pink icons and checkbox behavior
+- Visual interest cards with checkbox behavior
 - Strict recommendation matching by recipient, occasion, interest, budget, and marketplace
 - Match score and "Why this gift?" explanation for each recommendation
 - Expanded demo catalog with 5,120 gift records and product-photo URLs
-- Marketplace selection and links for Shopee, Lazada, TikTok Shop, and Temu
-- Gift comparison feature shown only when at least two results are available
-- Wishlist with add, remove, planning-to-buy, and purchased status
-- Occasion manager with guided placeholders, countdown days, and reminder settings
-- Upcoming occasion cards can open the gift finder with details pre-filled
-- Professional notification bell with count badge, scrollable panel, clear all, and mark-as-read actions
-- Consumer-friendly About Us, Privacy Policy, Terms of Service, and Contact pages
+- Marketplace selection and links (Shopee, Lazada, TikTok Shop, Temu)
+- Gift comparison feature (shown when at least two results are available)
+- Wishlist with add, remove, planned, purchased status
+- Occasion manager with countdown days and reminder settings
+- Upcoming occasion cards open gift finder pre-filled
+- Notification system with badge count, scrollable panel, mark-as-read actions
+- About Us, Privacy Policy, Terms of Service, Contact pages
 - GiftMatch Pro subscription page
-- Progressive Web App manifest, service worker, offline page, and icons
+- Progressive Web App (manifest, service worker, offline page, icons)
 - Dockerfile and docker-compose.yml included
 
-## Technologies Used
+---
+
+## 🧑‍💻 Developers
+
+This project was developed by:
+
+- Althea Lauren J. Villa
+- Norelyn Madia
+- Julius Arnesto
+- Princess Heaven Rica
+
+---
+
+## 🌐 Live Demo
+
+https://giftmatch.pythonanywhere.com
+
+---
+
+## 🛠 Technologies Used
 
 - Python
 - Django
 - Django REST Framework
 - django-allauth
-- SQLite by default
+- SQLite (default)
 - HTML, CSS, JavaScript
 - Custom responsive CSS
-- Progressive Web App files
-- Docker and Docker Compose
+- Progressive Web App (PWA)
+- Docker & Docker Compose
 
-## How to Run Without Docker
+---
 
-```bash
+## 🚀 How to Run Without Docker
+
 cd giftmatch_project
 python -m venv .venv
 
-# Windows
+Windows:
 .venv\Scripts\activate
 
-# macOS/Linux
+macOS/Linux:
 source .venv/bin/activate
 
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py seed_demo
 python manage.py runserver 8001
-```
 
-Open the app at:
-
-```text
+Open:
 http://127.0.0.1:8001/
-```
 
-Use port `8001` if port `8000` is already showing an older project.
+---
 
-## How to Run Using Docker
+## 🐳 How to Run Using Docker
 
-```bash
 cd giftmatch_project
 docker compose up --build
-```
 
-Open the app at:
-
-```text
+Open:
 http://127.0.0.1:8000/
-```
 
-## Demo Accounts
+---
 
-The `seed_demo` command creates these accounts:
+## 👤 Demo Accounts
 
-```text
-Admin username: admin
-Admin password: admin12345
+Admin:
+admin / admin12345
 
-Demo username: sarah
-Demo password: demo12345
-```
+Demo:
+sarah / demo12345
 
-Admin panel:
-
-```text
+Admin Panel:
 http://127.0.0.1:8001/admin/
-```
 
-## Important Note About Product Images
+---
 
-Recommendation cards use product-photo URLs saved in the database through:
+## 🔌 API Notes for Instructor Checking
 
-```bash
-python manage.py seed_demo
-```
+Internal API routes (hidden from UI):
 
-If you previously ran an older copy of the project and still see text-only SVG placeholders, run:
-
-```bash
-python manage.py seed_demo
-```
-
-The command resets the demo gift catalog and reloads gifts with matched product photos. You can also delete `db.sqlite3`, run migrations again, then run `seed_demo` for a completely fresh database.
-
-## Social Login Setup
-
-The code includes django-allauth with Google and Facebook providers. For real Google/Facebook login, replace the placeholder OAuth credentials in `.env` or `.env.example`:
-
-```text
-SITE_DOMAIN=127.0.0.1:8000
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-FACEBOOK_CLIENT_ID=your-facebook-client-id
-FACEBOOK_CLIENT_SECRET=your-facebook-client-secret
-```
-
-Then run:
-
-```bash
-python manage.py seed_demo
-```
-
-The demo command creates/updates the SocialApp records using those environment values. Without real OAuth credentials, Google/Facebook will reject the placeholder client IDs.
-
-## Main Web Pages
-
-```text
-/                         Landing Page
-/accounts/login/          Login Page
-/accounts/register/       Register Page
-/dashboard/               Dashboard
-/gifts/finder/            Gift Finder
-/recommendations/         Gift Recommendations
-/gifts/<id>/              Gift Details
-/wishlist/                Wishlist
-/occasions/               Occasion Manager
-/notifications/           Notifications
-/accounts/profile/        Profile
-/pro/                     GiftMatch Pro
-/about/                   About Us
-/privacy/                 Privacy Policy
-/terms/                   Terms of Service
-/contact/                 Contact Us
-/offline/                 PWA Offline Page
-```
-
-## API Notes for Instructor Checking
-
-API routes still exist internally for project requirements, but they are intentionally hidden from the normal user interface because customers do not need to see developer-facing tools.
-
-```text
 /api/v1/gifts/
 /api/v1/categories/
 /api/v1/interests/
@@ -164,37 +115,84 @@ API routes still exist internally for project requirements, but they are intenti
 /api/v1/notifications/
 /api/v1/recommendations/
 /api/v1/profile/
-```
 
-## PWA Support
+---
 
-Included PWA files:
+## 📱 PWA Support
 
-```text
 /static/pwa/manifest.json
 /static/pwa/service-worker.js
 /static/images/icons/icon-192.png
 /static/images/icons/icon-512.png
 /offline/
-```
 
-## Screenshots
+---
 
-Add your screenshots here after running the system:
+## 📸 Screenshots
 
-- Landing Page
-- Dashboard
-- Gift Finder
-- Recommendations
-- Wishlist
-- Occasion Manager
-- GiftMatch Pro
+### Landing Page
+<img width="1897" height="893" alt="image" src="https://github.com/user-attachments/assets/3dc29fa5-9846-4e42-a07b-a7841e182002" />
 
-## Required Lessons Shown in This Project
+Figure 1. GiftMatch landing page.
 
-- Django Core: Models and ORM through UserProfile, Gift, Category, Interest, Occasion, WishlistItem, RecommendationHistory, and Notification models
-- Django Core: Views and Authentication through protected pages and Django auth
-- Progressive Web App through manifest, service worker, icons, and offline page
-- API Integration in Django using external product data with fallback links
-- RESTful API Development through Django REST Framework serializers, viewsets, and API routes
-- Containerization using Dockerfile and docker-compose.yml
+### User Registration
+<img width="1900" height="906" alt="Screenshot 2026-06-05 222449" src="https://github.com/user-attachments/assets/62a81050-7926-44bc-b079-1b5d9e3af05a" />
+
+Figure 2. Registration page.
+
+### User Login
+<img width="1892" height="886" alt="Screenshot 2026-06-05 222519" src="https://github.com/user-attachments/assets/5f203854-da5f-4bcd-b011-8ea2c5fcf9ba" />
+
+Figure 3. Login page.
+
+### Gift Dashboard
+<img width="1918" height="908" alt="Screenshot 2026-06-05 222729" src="https://github.com/user-attachments/assets/1e891fbe-ec40-4386-a50c-37f39b7dabb7" />
+
+Figure 4. Dashboard page.
+
+### Gift Finder
+<img width="1903" height="896" alt="Screenshot 2026-06-05 223037" src="https://github.com/user-attachments/assets/d9ec8247-5ca3-4da8-80f3-4786b93c451d" />
+
+Figure 5. Find match gift.
+
+### Occasions
+<img width="1885" height="897" alt="Screenshot 2026-06-05 223114" src="https://github.com/user-attachments/assets/693940f2-c92b-424b-b14b-7d26c8fae843" />
+
+Figure 6. Choose what occasions.
+
+### Details
+<img width="1919" height="911" alt="Screenshot 2026-06-05 223254" src="https://github.com/user-attachments/assets/d868bc12-3608-472b-acf4-2d194dc1fb8c" />
+
+Figure 7. Choose what's the interest, budget, and marketplace.
+
+### Recommendations
+<img width="1899" height="901" alt="Screenshot 2026-06-05 223426" src="https://github.com/user-attachments/assets/81783631-b73c-4626-a780-fccc8a51b7d0" />
+
+Figure 8. Found relevant matches.
+
+
+### Wishlist
+<img width="1907" height="886" alt="Screenshot 2026-06-05 223536" src="https://github.com/user-attachments/assets/ed14f0a0-b685-4e4f-aef9-8c51a614cf28" />
+
+Figure 9. Save gift ideas, remove them, or mark them as purchased.
+
+### GiftMatch Pro
+<img width="1875" height="885" alt="Screenshot 2026-06-05 223738" src="https://github.com/user-attachments/assets/b4425763-e41d-4f02-9d60-407eaef9553d" />
+
+Figure 10. Upgrade gifting experience.
+
+### Profile
+<img width="1881" height="902" alt="Screenshot 2026-06-05 223956" src="https://github.com/user-attachments/assets/94dbb540-6ea3-4330-abe7-8f4dcaf68110" />
+
+
+Figure 10. Profile page.
+
+
+---
+
+## ⚠️ Important Notes
+
+- Run `python manage.py seed_demo` after setup to load full gift catalog with images
+- If images don’t appear, reset DB and rerun migrations + seed_demo
+- Social login requires valid OAuth credentials in .env
+
